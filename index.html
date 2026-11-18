@@ -51,16 +51,18 @@ h1,h2,h3,p{margin:0}
 .scene{position:relative;background:linear-gradient(#FFE3EC,#FFF1F5);padding:18px 20px 0;overflow:hidden;border-radius:0 0 36px 36px}
 .scene>*{position:relative;z-index:1}
 .scene>.clouds{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-.clouds .drift{animation:drift 14s ease-in-out infinite alternate}
+.scene>.c-back,.scene>.c-front{left:-16px;width:calc(100% + 32px);will-change:transform}
+.c-front .cl{position:absolute;inset:0;width:100%;height:100%}
+.scene>.c-front{animation:drift 14s ease-in-out infinite alternate}
 .clouds .friend{animation:friend 7s ease-in-out infinite}
 .clouds .bear{transform-box:fill-box;transform-origin:50% 100%}
 .clouds .br{animation:eartw 4.500s ease-in-out infinite}
 .clouds .bl{animation:eartw 6s ease-in-out 1s infinite}
 @keyframes eartw{0%,84%,100%{transform:rotate(0)}89%{transform:rotate(14deg)}94%{transform:rotate(-5deg)}}
 @keyframes friend{0%,12%,100%{transform:translateY(26px)}26%,78%{transform:translateY(0)}34%{transform:translateY(-3px)}}
-.clouds .drift2{animation:drift 20s ease-in-out infinite alternate-reverse}
+.scene>.c-back{animation:drift 20s ease-in-out infinite alternate-reverse}
 @keyframes drift{from{transform:translateX(-10px)}to{transform:translateX(12px)}}
-@media (prefers-reduced-motion:reduce){.clouds *{animation:none}}
+@media (prefers-reduced-motion:reduce){.clouds,.clouds *{animation:none!important}}
 .scene-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .pet-name{font-family:var(--display);font-weight:800;font-size:32px;line-height:1}
 .hearts{display:flex;gap:4px;margin-top:8px}
@@ -68,7 +70,10 @@ h1,h2,h3,p{margin:0}
 .icon-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.7);display:grid;place-items:center}
 .icon-btn svg{width:22px;height:22px}
 .pet-wrap{display:flex;justify-content:center;margin-top:2px}
-.pet-wrap svg{width:240px;height:auto;display:block}
+.pet-wrap .sq{width:295px;aspect-ratio:320/316;margin:-18px -27px;position:relative;flex:none}
+.pet-wrap .sq-sleep{width:240px;aspect-ratio:260/276;position:relative;flex:none}
+.ly{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
+.sq .hopper,.sq .tail,.sq .body-all,.sq .head,.sq .ear-l,.sq .ear-r,.sq .bowflop,.sq .hands,.sq-sleep .snore,.sq-sleep .sleephead{will-change:transform}
 .streak{position:absolute;right:20px;bottom:76px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0}
 .streak svg{width:32px;height:32px;animation:beat 1.800s ease-in-out infinite}
 @keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.150)}24%{transform:scale(1)}36%{transform:scale(1.100)}48%{transform:scale(1)}}
@@ -78,11 +83,11 @@ h1,h2,h3,p{margin:0}
 .bubble{background:var(--card);border:2px solid #FFDCE6;border-radius:18px;padding:10px 14px;margin:0 0 16px;font-size:14.5px;font-weight:700;text-align:center;box-shadow:0 4px 0 rgba(59,42,53,.06)}
 
 /* squirrel */
-.sq{overflow:visible;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.sq{cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .pet-wrap{position:relative}
 .scene>.feed{position:absolute;left:16px;bottom:76px;z-index:4;display:flex;flex-direction:column-reverse;align-items:center;gap:8px}
 .feed-btn{display:flex;flex-direction:column;align-items:center;gap:0;min-width:52px;padding:2px 4px;border-radius:16px;font-size:11.500px;font-weight:700;line-height:1.2}
-.feed-btn svg{width:54px;height:54px;transition:transform .2s;filter:drop-shadow(0 3px 6px rgba(59,42,53,.12))}
+.feed-btn svg{width:54px;height:54px;transition:transform .2s}
 .feed-btn .peek{animation:peek 5s ease-in-out infinite}
 .feed.open .feed-btn .peek{animation:none;transform:translateY(-6px)}
 @keyframes peek{0%,18%,100%{transform:translateY(11px)}32%,82%{transform:translateY(-4px)}40%{transform:translateY(-6px)}}
@@ -96,7 +101,7 @@ h1,h2,h3,p{margin:0}
 .treat svg{width:29px;height:29px;pointer-events:none}
 .treat.lifted svg{opacity:.25}
 .tray-hint{font-size:10.500px;font-weight:800;color:var(--muted);text-align:center;line-height:1.1;padding:2px 0 4px}
-.ghost{position:fixed;z-index:50;width:58px;height:58px;pointer-events:none;transform:translate(-50%,-50%) rotate(-8deg);filter:drop-shadow(0 6px 8px rgba(59,42,53,.25))}
+.ghost{position:fixed;z-index:50;width:58px;height:58px;pointer-events:none;transform:translate(-50%,-50%) rotate(-8deg);will-change:left,top}
 .ghost svg,.bite svg{width:100%;height:100%;display:block}
 .bite{position:absolute;width:44px;height:44px;pointer-events:none;z-index:3;animation:bite 1.200s steps(1) forwards}
 @keyframes bite{0%{transform:translate(-50%,-50%) scale(1)}25%{transform:translate(-50%,-50%) scale(.75) rotate(8deg)}50%{transform:translate(-50%,-50%) scale(.5) rotate(-8deg)}75%{transform:translate(-50%,-50%) scale(.28) rotate(6deg)}100%{transform:translate(-50%,-50%) scale(0)}}
@@ -105,47 +110,47 @@ h1,h2,h3,p{margin:0}
 @keyframes pop{from{opacity:1;transform:translate(-50%,-50%) scale(.6)}to{opacity:0;transform:translate(calc(-50% + var(--dx)),-95px) scale(1.250)}}
 .sq .happy,.sq .ok,.sq .sad{display:none}
 .sq.m-happy .happy,.sq.m-ok .ok,.sq.m-sad .sad{display:inline}
-.sq .body-all{transform-origin:130px 258px;animation:breathe 3s ease-in-out infinite}
-.sq .head{transform-origin:126px 186px;animation:tilt 5s ease-in-out infinite}
-.sq .tail{transform-origin:186px 238px;animation:sway 3.400s ease-in-out infinite}
-.sq .eyes{transform-origin:126px 132px;animation:blink 4.200s infinite}
+.sq .body-all{transform-origin:50% 87.97%;animation:breathe 3s ease-in-out infinite}
+.sq .head{transform-origin:48.75% 65.19%;animation:tilt 5s ease-in-out infinite}
+.sq .tail{transform-origin:67.5% 81.65%;animation:sway 3.400s ease-in-out infinite}
+.sq .eyes{transform-box:fill-box;transform-origin:center;animation:blink 4.200s infinite}
 .sq.m-happy .eyes{animation:none}
-.sq .ear-l{transform-origin:66px 80px;animation:twitch 5.500s ease-in-out infinite}
-.sq .ear-r{transform-origin:188px 80px;animation:twitch 5.500s ease-in-out .2s infinite reverse}
+.sq .ear-l{transform-origin:30% 31.65%;animation:twitch 5.500s ease-in-out infinite}
+.sq .ear-r{transform-origin:68.125% 31.65%;animation:twitch 5.500s ease-in-out .2s infinite reverse}
 .sq .hands{animation:nibble 5s ease-in-out infinite}
 .sq.m-happy .hands{animation-duration:3s}
 .sq.m-happy .body-all{animation:wiggle 1.600s ease-in-out infinite}
-.sq.m-sad .hands{animation:none;transform:translateY(8px)}
+.sq.m-sad .hands{animation:none;transform:translateY(2.53%)}
 .sq.m-sad .tail{animation-duration:7s}
-.sq.m-sad .head{animation:none;transform:rotate(-3deg) translateY(4px)}
-.sq .bowflop{transform-box:fill-box;transform-origin:50% 25%;animation:flop 2.800s ease-in-out infinite}
+.sq.m-sad .head{animation:none;transform:rotate(-3deg) translateY(1.27%)}
+.sq .bowflop{transform-origin:58.75% 19.62%;animation:flop 2.800s ease-in-out infinite}
 @keyframes flop{0%,100%{transform:rotate(-3deg) scaleY(1)}50%{transform:rotate(3deg) scaleY(1.060)}}
 .sq.tickle .ok,.sq.tickle .sad{display:none!important}
 .sq.tickle .happy{display:inline!important}
 .sq.tickle .body-all{animation:giggle .24s ease-in-out infinite}
 .sq.tickle .head{animation:tilt .5s ease-in-out infinite;transform:none}
-.sq.tickle .hands{animation:none;transform:translateY(-5px)}
+.sq.tickle .hands{animation:none;transform:translateY(-1.58%)}
 .sq.tickle .tail{animation-duration:.45s}
 .sq.tickle .ear-l,.sq.tickle .ear-r{animation-duration:.6s}
-@keyframes giggle{0%,100%{transform:rotate(-3deg) translateY(0) scale(1.025,.975)}50%{transform:rotate(3deg) translateY(-4px) scale(.98,1.030)}}
+@keyframes giggle{0%,100%{transform:rotate(-3deg) translateY(0) scale(1.025,.975)}50%{transform:rotate(3deg) translateY(-1.27%) scale(.98,1.030)}}
 .sq.eat .ok,.sq.eat .sad,.sq.want .ok,.sq.want .sad{display:none!important}
 .sq.eat .happy,.sq.want .happy{display:inline!important}
-.sq.want .head{animation:none;transform:rotate(-4deg) translateY(-3px)}
+.sq.want .head{animation:none;transform:rotate(-4deg) translateY(-.95%)}
 .sq.eat .head{animation:chew .30s ease-in-out infinite;transform:none}
 .sq.eat .hands{animation:none}
 .sq.eat .tail{animation-duration:.8s}
 @keyframes chew{0%,100%{transform:scale(1.035,.965)}50%{transform:scale(.985,1.025)}}
-.sq .hopper{transform-origin:130px 262px}
+.sq .hopper{transform-origin:50% 89.24%}
 .sq.hop .hopper{animation:hop .7s cubic-bezier(.3,.7,.4,1)}
-.sq.hop .shadow{animation:shadow .7s ease-out;transform-origin:130px 262px}
+.sq.hop .shadow{animation:shadow .7s ease-out;transform-origin:50% 89.24%}
 @keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.020,.975)}}
 @keyframes wiggle{0%,100%{transform:rotate(-2.500deg) scale(1,1)}50%{transform:rotate(2.500deg) scale(1.015,.985)}}
 @keyframes tilt{0%,100%{transform:rotate(-1.500deg)}50%{transform:rotate(2deg)}}
 @keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(7deg)}}
 @keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
 @keyframes twitch{0%,86%,100%{transform:rotate(0)}90%{transform:rotate(-10deg)}94%{transform:rotate(5deg)}}
-@keyframes nibble{0%,58%,100%{transform:translateY(0)}64%{transform:translateY(-14px)}68%{transform:translateY(-11px)}72%{transform:translateY(-14px)}76%{transform:translateY(-11px)}80%{transform:translateY(-14px)}88%{transform:translateY(0)}}
-@keyframes hop{0%,100%{transform:translateY(0) scale(1,1)}15%{transform:translateY(0) scale(1.070,.9)}45%{transform:translateY(-30px) scale(.96,1.050)}80%{transform:translateY(0) scale(1.050,.93)}}
+@keyframes nibble{0%,58%,100%{transform:translateY(0)}64%{transform:translateY(-4.43%)}68%{transform:translateY(-3.48%)}72%{transform:translateY(-4.43%)}76%{transform:translateY(-3.48%)}80%{transform:translateY(-4.43%)}88%{transform:translateY(0)}}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1,1)}15%{transform:translateY(0) scale(1.070,.9)}45%{transform:translateY(-9.5%) scale(.96,1.050)}80%{transform:translateY(0) scale(1.050,.93)}}
 @keyframes shadow{0%,100%{transform:scale(1)}45%{transform:scale(.7)}}
 @media (prefers-reduced-motion:reduce){.sq *{animation:none!important}}
 
@@ -157,10 +162,8 @@ h1,h2,h3,p{margin:0}
 .scene>.nightsky{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .nightsky .star{animation:twinkle 2.600s ease-in-out infinite}
 @keyframes twinkle{0%,100%{opacity:.35}50%{opacity:1}}
-.sq-sleep{overflow:visible}
-.sq-sleep .snore{transform-origin:130px 250px;animation:snore 3.600s ease-in-out infinite}
-.sq-sleep .sleephead{transform-origin:130px 170px;animation:snorehead 3.600s ease-in-out infinite}
-.sq-sleep .mouth{transform-box:fill-box;transform-origin:center;animation:snoremouth 3.600s ease-in-out infinite}
+.sq-sleep .snore{transform-origin:50% 90.58%;animation:snore 3.600s ease-in-out infinite}
+.sq-sleep .sleephead{transform-origin:50% 61.59%;animation:snorehead 3.600s ease-in-out infinite}
 .sq-sleep .z{opacity:0;transform-box:fill-box;animation:zzz 3.600s ease-in infinite}
 .sq-sleep .z2{animation-delay:.7s}.sq-sleep .z3{animation-delay:1.400s}
 @keyframes snore{0%,100%{transform:scaleY(1)}45%{transform:scaleY(1.045)}}
@@ -309,7 +312,7 @@ button:active{transform:scale(.95)}
 /* nav */
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:20;pointer-events:none}
 .nav-in{max-width:460px;margin:0 auto;padding:0 20px 18px;display:flex;justify-content:space-between;align-items:center}
-.tabs{pointer-events:auto;display:flex;gap:2px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-radius:99px;padding:6px;box-shadow:0 8px 24px rgba(59,42,53,.14)}
+.tabs{pointer-events:auto;display:flex;gap:2px;background:#fff;border-radius:99px;padding:6px;box-shadow:0 8px 24px rgba(59,42,53,.14)}
 .tabs button{width:54px;height:52px;border-radius:99px;display:grid;place-items:center;color:#CDBFC6}
 .tabs button[aria-current="page"]{background:var(--pink);color:var(--ink)}
 .tabs svg{width:24px;height:24px}
@@ -409,63 +412,26 @@ const SQDEFS=`<defs>
  <radialGradient id="gNut" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#F4D3AE"/><stop offset="1" stop-color="#CF9870"/></radialGradient>
  <linearGradient id="gBlanket" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9BDCE"/><stop offset="1" stop-color="#EC97B1"/></linearGradient>
 </defs>`;
-function sleeping(){
-return `<svg class="sq-sleep" viewBox="0 0 260 276" role="img" aria-label="Orav magab voodis">${SQDEFS}
-<ellipse cx="130" cy="264" rx="112" ry="7" fill="#1E1433" opacity=".25" filter="url(#soft2)"/>
-<rect x="30" y="246" width="16" height="17" rx="5" fill="#C97F96"/><rect x="214" y="246" width="16" height="17" rx="5" fill="#C97F96"/>
-<path d="M34 196 V112 C34 78 70 62 130 62 C190 62 226 78 226 112 V196 Z" fill="#E79DB3"/>
-<path d="M50 196 V116 C50 92 80 79 130 79 C180 79 210 92 210 116 V196 Z" fill="#F4BDCB"/>
-<path d="M130 92 C123 87 119 82 121 78 C123 74 128 75 130 78 C132 75 137 74 139 78 C141 82 137 87 130 92Z" fill="#E79DB3"/>
-<rect x="16" y="178" width="228" height="72" rx="20" fill="#FFF7F9"/>
-<ellipse cx="130" cy="160" rx="80" ry="30" fill="#fff" stroke="#F6D5DE" stroke-width="2"/>
-<g class="sleephead"><g transform="translate(50 58) scale(.64)">
- <g filter="url(#fuzz)"><circle cx="58" cy="62" r="23" fill="#EE9AB3"/><ellipse cx="59" cy="65" rx="12" ry="14" fill="#F9B9C6"/><circle cx="196" cy="64" r="23" fill="#EE9AB3"/><ellipse cx="195" cy="67" rx="12" ry="14" fill="#F9B9C6"/>
-  <path d="M126 44 C182 44 216 78 216 122 C216 164 180 192 126 192 C70 192 36 164 36 122 C36 78 70 44 126 44 Z" fill="url(#gHead)"/>
-  <g filter="url(#soft2)" fill="none" stroke="#E487A3" stroke-linecap="round" opacity=".6"><path d="M126 50 C124 66 124 80 126 96" stroke-width="12"/><path d="M98 56 C92 70 90 82 92 94" stroke-width="9"/><path d="M154 56 C160 70 162 82 160 94" stroke-width="9"/></g></g>
- <ellipse cx="62" cy="156" rx="20" ry="12" fill="#F7799A" opacity=".55" filter="url(#soft)"/><ellipse cx="190" cy="156" rx="20" ry="12" fill="#F7799A" opacity=".55" filter="url(#soft)"/>
- <g fill="none" stroke="#33252C" stroke-width="4.500" stroke-linecap="round"><path d="M78 130 Q89 141 100 130"/><path d="M152 130 Q163 141 174 130"/><path d="M79 133 l-5 4 M173 133 l5 4" stroke-width="2.600"/></g>
- <path d="M121 148 h10 q2.500 0 1 2.500 l-4.500 4.500 q-1.500 1.500 -3 0 l-4.500 -4.500 q-1.500 -2.500 1 -2.500z" fill="#E77C99"/>
- <ellipse class="mouth" cx="126" cy="164" rx="4" ry="5" fill="#C55A7C"/>
- <g transform="translate(158 42) rotate(9) scale(1.150)"><path d="M-7 3 L-40 42 L-29 41 L-23 54 L3 9 Z" fill="url(#gBowT)"/><path d="M7 3 L40 42 L29 41 L23 54 L-3 9 Z" fill="url(#gBowT)"/><path d="M-5 -4 C-20 -20 -42 -32 -50 -25 C-56 -12 -54 8 -47 16 C-32 14 -16 9 -5 5 Z" fill="url(#gBowL)"/><path d="M5 -4 C20 -20 42 -32 50 -25 C56 -12 54 8 47 16 C32 14 16 9 5 5 Z" fill="url(#gBowR)"/><rect x="-7.500" y="-9" width="15" height="18" rx="6" fill="url(#gBowT)" stroke="#D58FA1" stroke-width="1"/></g>
-</g></g>
-<g class="snore">
- <path d="M16 200 C16 184 60 170 130 170 C200 170 244 184 244 200 V232 C244 242 236 250 226 250 H34 C24 250 16 242 16 232 Z" fill="url(#gBlanket)"/>
- <ellipse cx="130" cy="210" rx="68" ry="24" fill="#FCD6E0" opacity=".85" filter="url(#soft)"/>
- <path transform="translate(52 222) scale(1.3)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/><path transform="translate(92 236) scale(1)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/><path transform="translate(168 234) scale(1.2)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/><path transform="translate(210 220) scale(1)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/><path transform="translate(130 226) scale(0.9)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/>
- <path d="M16 200 C16 184 60 170 130 170 C200 170 244 184 244 200 C200 186 60 186 16 200 Z" fill="#FFF1F5"/>
-</g>
-<g filter="url(#fuzz)"><ellipse cx="98" cy="184" rx="12" ry="8" fill="#F9C2D0"/><ellipse cx="162" cy="184" rx="12" ry="8" fill="#F9C2D0"/></g>
-<rect x="12" y="238" width="236" height="16" rx="8" fill="#E79DB3"/>
-<g font-family="Baloo 2,Nunito,sans-serif" font-weight="800" fill="#fff"><text class="z" x="188" y="104" font-size="18">z</text><text class="z z2" x="200" y="86" font-size="24">z</text><text class="z z3" x="216" y="64" font-size="30">Z</text></g>
-</svg>`;
-}
-function nightSky(){const st=[[30,40,2],[70,110,1.500],[120,30,1.800],[180,70,1.400],[230,24,2],[300,96,1.600],[350,44,2.200],[380,150,1.400],[20,170,1.600],[150,140,1.200],[270,170,1.400]];
-return `<svg class="nightsky" viewBox="0 0 400 400" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
-<circle cx="296" cy="84" r="46" fill="#FFF3C4" opacity=".12"/><path d="M318 94 A32 32 0 1 1 286 54 A25 25 0 0 0 318 94 Z" fill="#FFF3C4"/>
-${st.map(([x,y,r],i)=>`<circle class="star" style="animation-delay:${(i*.37).toFixed(2)}s" cx="${x}" cy="${y}" r="${r}" fill="#fff"/>`).join('')}</svg>`}
-
-function squirrel(mood){
-return `<svg class="sq m-${mood}" viewBox="0 0 260 276" role="img" aria-label="Orav">
-${SQDEFS}
-<ellipse class="shadow" cx="130" cy="262" rx="78" ry="8" fill="#5B3B4B" opacity=".10" filter="url(#soft2)"/>
-<g class="hopper">
- <g class="tail" filter="url(#fuzz)">
+/* The fuzzy fur is expensive to draw, so every part of the squirrel is drawn ONCE into a picture.
+   After that only ready-made pictures move, which the phone can do smoothly. */
+const SQ_VB='-30 -20 320 316';
+const SQP={
+ shadow:`<ellipse cx="130" cy="262" rx="78" ry="8" fill="#5B3B4B" opacity=".10" filter="url(#soft2)"/>`,
+ tail:`<g class="tail" filter="url(#fuzz)">
   <path d="M186 238 C250 248 284 196 270 144 C258 102 212 100 203 138 C196 168 212 198 182 218 Z" fill="url(#gTail)"/>
   <path d="M240 142 C258 170 250 210 220 230" fill="none" stroke="#FBD3DE" stroke-width="13" stroke-linecap="round" opacity=".7" filter="url(#soft2)"/>
- </g>
- <g filter="url(#fuzz)">
+ </g>`,
+ feet:`<g filter="url(#fuzz)">
   <ellipse cx="82" cy="256" rx="22" ry="9" fill="#F3A3B8"/>
   <ellipse cx="176" cy="256" rx="22" ry="9" fill="#F3A3B8"/>
- </g>
- <g class="body-all">
-  <g filter="url(#fuzz)">
+ </g>`,
+ body:`<g filter="url(#fuzz)">
    <ellipse cx="130" cy="200" rx="80" ry="60" fill="url(#gBody)"/>
    <ellipse cx="124" cy="220" rx="38" ry="24" fill="#FFF6F8" opacity=".8" filter="url(#soft)"/>
-  </g>
-  <g class="head">
-   <g class="ear ear-l" filter="url(#fuzz)"><circle cx="58" cy="62" r="23" fill="#EE9AB3"/><ellipse cx="59" cy="65" rx="12" ry="14" fill="#F9B9C6"/></g>
-   <g class="ear ear-r" filter="url(#fuzz)"><circle cx="196" cy="64" r="23" fill="#EE9AB3"/><ellipse cx="195" cy="67" rx="12" ry="14" fill="#F9B9C6"/></g>
-   <g filter="url(#fuzz)">
+  </g>`,
+ earL:`<g class="ear ear-l" filter="url(#fuzz)"><circle cx="58" cy="62" r="23" fill="#EE9AB3"/><ellipse cx="59" cy="65" rx="12" ry="14" fill="#F9B9C6"/></g>`,
+ earR:`<g class="ear ear-r" filter="url(#fuzz)"><circle cx="196" cy="64" r="23" fill="#EE9AB3"/><ellipse cx="195" cy="67" rx="12" ry="14" fill="#F9B9C6"/></g>`,
+ head:`<g filter="url(#fuzz)">
     <path d="M126 44 C182 44 216 78 216 122 C216 164 180 192 126 192 C70 192 36 164 36 122 C36 78 70 44 126 44 Z" fill="url(#gHead)"/>
     <g filter="url(#soft2)" fill="none" stroke="#E487A3" stroke-linecap="round" opacity=".6">
      <path d="M126 50 C124 66 124 80 126 96" stroke-width="12"/>
@@ -473,7 +439,9 @@ ${SQDEFS}
      <path d="M154 56 C160 70 162 82 160 94" stroke-width="9"/>
     </g>
    </g>
-   <g class="bow" transform="translate(158 42) rotate(9) scale(1.150)"><g class="bowflop">
+   <ellipse cx="62" cy="156" rx="20" ry="12" fill="#F7799A" opacity=".55" filter="url(#soft)"/>
+   <ellipse cx="190" cy="156" rx="20" ry="12" fill="#F7799A" opacity=".55" filter="url(#soft)"/>`,
+ bow:`<g class="bow" transform="translate(158 42) rotate(9) scale(1.150)"><g class="bowflop">
     <path d="M-7 3 L-40 42 L-29 41 L-23 54 L3 9 Z" fill="url(#gBowT)"/>
     <path d="M7 3 L40 42 L29 41 L23 54 L-3 9 Z" fill="url(#gBowT)"/>
     <path d="M-8 6 L-30 38 M8 6 L30 38" fill="none" stroke="#D58FA1" stroke-width="1.600" stroke-linecap="round" opacity=".6"/>
@@ -487,10 +455,49 @@ ${SQDEFS}
      <path d="M-44 -18 C-36 -20 -26 -16 -18 -9"/><path d="M44 -18 C36 -20 26 -16 18 -9"/></g>
     <rect x="-7.500" y="-9" width="15" height="18" rx="6" fill="url(#gBowT)" stroke="#D58FA1" stroke-width="1"/>
     <path d="M-3 -5 q3 -2 6 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".9"/>
-   </g></g>
-   <ellipse cx="62" cy="156" rx="20" ry="12" fill="#F7799A" opacity=".55" filter="url(#soft)"/>
-   <ellipse cx="190" cy="156" rx="20" ry="12" fill="#F7799A" opacity=".55" filter="url(#soft)"/>
-   <g class="eyes">
+   </g></g>`,
+ arms:`<g filter="url(#fuzz)">
+    <ellipse cx="92" cy="208" rx="24" ry="14" transform="rotate(18 92 208)" fill="#F4AEC2"/>
+    <ellipse cx="164" cy="208" rx="24" ry="14" transform="rotate(-18 164 208)" fill="#F4AEC2"/>
+   </g>`,
+ nut:`<g class="nut">
+    <path d="M128 203 q-1 -7 3 -9" fill="none" stroke="#9C6B48" stroke-width="3.500" stroke-linecap="round"/>
+    <path d="M128 248 C106 233 97 218 99 205 C101 191 119 188 128 202 C137 188 155 191 157 205 C159 218 150 233 128 248 Z" fill="url(#gNut)"/>
+    <path d="M128 205 C126 218 126 232 128 245" fill="none" stroke="#B9805A" stroke-width="1.600" stroke-linecap="round" opacity=".55"/>
+    <path d="M139 200 C146 199 151 203 152 209 M117 236 C113 232 110 228 108 224" fill="none" stroke="#B9805A" stroke-width="1.400" stroke-linecap="round" opacity=".45"/>
+    <path d="M106 207 C107 201 112 198 117 199" fill="none" stroke="#FFF1DF" stroke-width="3.200" stroke-linecap="round" opacity=".9"/>
+   </g>`,
+ paws:`<g filter="url(#fuzz)">
+    <ellipse cx="107" cy="216" rx="10" ry="9" fill="#F9C2D0"/>
+    <ellipse cx="149" cy="216" rx="10" ry="9" fill="#F9C2D0"/>
+   </g>`};
+const SLP={
+ sA:`<ellipse cx="130" cy="264" rx="112" ry="7" fill="#1E1433" opacity=".25" filter="url(#soft2)"/>
+<rect x="30" y="246" width="16" height="17" rx="5" fill="#C97F96"/><rect x="214" y="246" width="16" height="17" rx="5" fill="#C97F96"/>
+<path d="M34 196 V112 C34 78 70 62 130 62 C190 62 226 78 226 112 V196 Z" fill="#E79DB3"/>
+<path d="M50 196 V116 C50 92 80 79 130 79 C180 79 210 92 210 116 V196 Z" fill="#F4BDCB"/>
+<path d="M130 92 C123 87 119 82 121 78 C123 74 128 75 130 78 C132 75 137 74 139 78 C141 82 137 87 130 92Z" fill="#E79DB3"/>
+<rect x="16" y="178" width="228" height="72" rx="20" fill="#FFF7F9"/>
+<ellipse cx="130" cy="160" rx="80" ry="30" fill="#fff" stroke="#F6D5DE" stroke-width="2"/>`,
+ sHead:`<g class="sleephead"><g transform="translate(50 58) scale(.64)">
+ <g filter="url(#fuzz)"><circle cx="58" cy="62" r="23" fill="#EE9AB3"/><ellipse cx="59" cy="65" rx="12" ry="14" fill="#F9B9C6"/><circle cx="196" cy="64" r="23" fill="#EE9AB3"/><ellipse cx="195" cy="67" rx="12" ry="14" fill="#F9B9C6"/>
+  <path d="M126 44 C182 44 216 78 216 122 C216 164 180 192 126 192 C70 192 36 164 36 122 C36 78 70 44 126 44 Z" fill="url(#gHead)"/>
+  <g filter="url(#soft2)" fill="none" stroke="#E487A3" stroke-linecap="round" opacity=".6"><path d="M126 50 C124 66 124 80 126 96" stroke-width="12"/><path d="M98 56 C92 70 90 82 92 94" stroke-width="9"/><path d="M154 56 C160 70 162 82 160 94" stroke-width="9"/></g></g>
+ <ellipse cx="62" cy="156" rx="20" ry="12" fill="#F7799A" opacity=".55" filter="url(#soft)"/><ellipse cx="190" cy="156" rx="20" ry="12" fill="#F7799A" opacity=".55" filter="url(#soft)"/>
+ <g fill="none" stroke="#33252C" stroke-width="4.500" stroke-linecap="round"><path d="M78 130 Q89 141 100 130"/><path d="M152 130 Q163 141 174 130"/><path d="M79 133 l-5 4 M173 133 l5 4" stroke-width="2.600"/></g>
+ <path d="M121 148 h10 q2.500 0 1 2.500 l-4.500 4.500 q-1.500 1.500 -3 0 l-4.500 -4.500 q-1.500 -2.500 1 -2.500z" fill="#E77C99"/>
+ <ellipse class="mouth" cx="126" cy="164" rx="4" ry="5" fill="#C55A7C"/>
+ <g transform="translate(158 42) rotate(9) scale(1.150)"><path d="M-7 3 L-40 42 L-29 41 L-23 54 L3 9 Z" fill="url(#gBowT)"/><path d="M7 3 L40 42 L29 41 L23 54 L-3 9 Z" fill="url(#gBowT)"/><path d="M-5 -4 C-20 -20 -42 -32 -50 -25 C-56 -12 -54 8 -47 16 C-32 14 -16 9 -5 5 Z" fill="url(#gBowL)"/><path d="M5 -4 C20 -20 42 -32 50 -25 C56 -12 54 8 47 16 C32 14 16 9 5 5 Z" fill="url(#gBowR)"/><rect x="-7.500" y="-9" width="15" height="18" rx="6" fill="url(#gBowT)" stroke="#D58FA1" stroke-width="1"/></g>
+</g></g>`,
+ sBlanket:`<g class="snore">
+ <path d="M16 200 C16 184 60 170 130 170 C200 170 244 184 244 200 V232 C244 242 236 250 226 250 H34 C24 250 16 242 16 232 Z" fill="url(#gBlanket)"/>
+ <ellipse cx="130" cy="210" rx="68" ry="24" fill="#FCD6E0" opacity=".85" filter="url(#soft)"/>
+ <path transform="translate(52 222) scale(1.3)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/><path transform="translate(92 236) scale(1)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/><path transform="translate(168 234) scale(1.2)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/><path transform="translate(210 220) scale(1)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/><path transform="translate(130 226) scale(0.9)" d="M0 6C-6 2-8-2-6-5-4-8-1-7 0-5 1-7 4-8 6-5 8-2 6 2 0 6Z" fill="#FFE3EB" opacity=".9"/>
+ <path d="M16 200 C16 184 60 170 130 170 C200 170 244 184 244 200 C200 186 60 186 16 200 Z" fill="#FFF1F5"/>
+</g>`,
+ sFront:`<g filter="url(#fuzz)"><ellipse cx="98" cy="184" rx="12" ry="8" fill="#F9C2D0"/><ellipse cx="162" cy="184" rx="12" ry="8" fill="#F9C2D0"/></g>
+<rect x="12" y="238" width="236" height="16" rx="8" fill="#E79DB3"/>`};
+const SQFACE=`<g class="eyes">
     <g class="ok">
      <ellipse cx="90" cy="131" rx="11.500" ry="13.500" fill="#33252C"/><ellipse cx="162" cy="131" rx="11.500" ry="13.500" fill="#33252C"/>
      <circle cx="86" cy="125.500" r="4.600" fill="#fff"/><circle cx="158" cy="125.500" r="4.600" fill="#fff"/>
@@ -510,28 +517,35 @@ ${SQDEFS}
    <path d="M121 148 h10 q2.500 0 1 2.500 l-4.500 4.500 q-1.500 1.500 -3 0 l-4.500 -4.500 q-1.500 -2.500 1 -2.500z" fill="#E77C99"/>
    <path class="ok" d="M118 161 Q122 166 126 161 Q130 166 134 161" fill="none" stroke="#B8617C" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round"/>
    <path class="happy" d="M116 159 Q126 174 136 159 Q126 163 116 159 Z" fill="#C55A7C" stroke="#B8617C" stroke-width="2" stroke-linejoin="round"/>
-   <path class="sad" d="M117 166 Q126 158 135 166" fill="none" stroke="#B8617C" stroke-width="2.600" stroke-linecap="round"/>
-  </g>
-  <g class="hands">
-   <g filter="url(#fuzz)">
-    <ellipse cx="92" cy="208" rx="24" ry="14" transform="rotate(18 92 208)" fill="#F4AEC2"/>
-    <ellipse cx="164" cy="208" rx="24" ry="14" transform="rotate(-18 164 208)" fill="#F4AEC2"/>
-   </g>
-   <g class="nut">
-    <path d="M128 203 q-1 -7 3 -9" fill="none" stroke="#9C6B48" stroke-width="3.500" stroke-linecap="round"/>
-    <path d="M128 248 C106 233 97 218 99 205 C101 191 119 188 128 202 C137 188 155 191 157 205 C159 218 150 233 128 248 Z" fill="url(#gNut)"/>
-    <path d="M128 205 C126 218 126 232 128 245" fill="none" stroke="#B9805A" stroke-width="1.600" stroke-linecap="round" opacity=".55"/>
-    <path d="M139 200 C146 199 151 203 152 209 M117 236 C113 232 110 228 108 224" fill="none" stroke="#B9805A" stroke-width="1.400" stroke-linecap="round" opacity=".45"/>
-    <path d="M106 207 C107 201 112 198 117 199" fill="none" stroke="#FFF1DF" stroke-width="3.200" stroke-linecap="round" opacity=".9"/>
-   </g>
-   <g filter="url(#fuzz)">
-    <ellipse cx="107" cy="216" rx="10" ry="9" fill="#F9C2D0"/>
-    <ellipse cx="149" cy="216" rx="10" ry="9" fill="#F9C2D0"/>
-   </g>
-  </g>
- </g>
-</g></svg>`;
+   <path class="sad" d="M117 166 Q126 158 135 166" fill="none" stroke="#B8617C" stroke-width="2.600" stroke-linecap="round"/>`;
+const SLZZZ=`<g font-family="Baloo 2,Nunito,sans-serif" font-weight="800" fill="#fff"><text class="z" x="188" y="104" font-size="18">z</text><text class="z z2" x="200" y="86" font-size="24">z</text><text class="z z3" x="216" y="64" font-size="30">Z</text></g>`;
+const LYR={},LYRSPEC={};
+const svgDoc=(inner,vb,w,h)=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="${w}" height="${h}">${SQDEFS}${inner}</svg>`;
+for(const k in SQP)LYRSPEC[k]=[svgDoc(SQP[k],SQ_VB,800,790),800,790];
+for(const k in SLP)LYRSPEC[k]=[svgDoc(SLP[k],'0 0 260 276',780,828),780,828];
+for(const k in LYRSPEC)LYR[k]='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(LYRSPEC[k][0]);
+async function bakeLayers(){
+  await Promise.all(Object.keys(LYRSPEC).map(async k=>{try{
+    const [,w,h]=LYRSPEC[k],im=new Image();im.src=LYR[k];await im.decode();
+    const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);
+    const blob=await new Promise(r=>c.toBlob(r,'image/png'));if(blob&&blob.size>200)LYR[k]=URL.createObjectURL(blob);
+  }catch(e){}}));
 }
+const ly=(n,c)=>`<img class="ly ${c||''}" src="${LYR[n]}" alt="" draggable="false">`;
+function squirrel(mood){
+return `<div class="sq m-${mood}" role="img" aria-label="Orav">${ly('shadow','shadow')}<div class="ly hopper">${ly('tail','tail')}${ly('feet')}
+ <div class="ly body-all">${ly('body')}
+  <div class="ly head">${ly('earL','ear-l')}${ly('earR','ear-r')}${ly('head')}${ly('bow','bowflop')}<svg class="ly face" viewBox="${SQ_VB}" aria-hidden="true">${SQFACE}</svg></div>
+  <div class="ly hands">${ly('arms')}${ly('nut')}${ly('paws')}</div>
+ </div></div></div>`;
+}
+function sleeping(){
+return `<div class="sq-sleep" role="img" aria-label="Orav magab voodis">${ly('sA')}${ly('sHead','sleephead')}${ly('sBlanket','snore')}${ly('sFront')}<svg class="ly" viewBox="0 0 260 276" aria-hidden="true">${SLZZZ}</svg></div>`;
+}
+function nightSky(){const st=[[30,40,2],[70,110,1.500],[120,30,1.800],[180,70,1.400],[230,24,2],[300,96,1.600],[350,44,2.200],[380,150,1.400],[20,170,1.600],[150,140,1.200],[270,170,1.400]];
+return `<svg class="nightsky" viewBox="0 0 400 400" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+<circle cx="296" cy="84" r="46" fill="#FFF3C4" opacity=".12"/><path d="M318 94 A32 32 0 1 1 286 54 A25 25 0 0 0 318 94 Z" fill="#FFF3C4"/>
+${st.map(([x,y,r],i)=>`<circle class="star" style="animation-delay:${(i*.37).toFixed(2)}s" cx="${x}" cy="${y}" r="${r}" fill="#fff"/>`).join('')}</svg>`}
 
 /* ---------- state ---------- */
 let S, memOnly=false;
@@ -601,10 +615,7 @@ function render(){
 }
 
 function cloud(x,y,k,f,o){return `<g transform="translate(${x} ${y}) scale(${k})" fill="${f}" opacity="${o}"><circle cx="-34" cy="6" r="20"/><circle cx="-8" cy="-8" r="28"/><circle cx="26" cy="0" r="23"/><circle cx="52" cy="10" r="15"/><rect x="-54" y="4" width="121" height="22" rx="11"/></g>`}
-function clouds(){return `<svg class="clouds" viewBox="0 0 400 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-<g class="drift2">${cloud(70,96,1.100,'#FFD3E0',.75)}${cloud(338,70,.9,'#FFD3E0',.7)}${cloud(250,190,.6,'#FFD3E0',.6)}</g>
-<g class="drift"><g class="friend" stroke="#F1CAD6" stroke-width="1.200"><g class="bear bl"><ellipse cx="311" cy="108" rx="7" ry="21" transform="rotate(-9 311 108)" fill="#FFF8F2"/><ellipse cx="311" cy="110" rx="3.200" ry="14" transform="rotate(-9 311 110)" fill="#F9B9C6" stroke="none"/></g><g class="bear br"><ellipse cx="333" cy="108" rx="7" ry="21" transform="rotate(11 333 108)" fill="#FFF8F2"/><ellipse cx="333" cy="110" rx="3.200" ry="14" transform="rotate(11 333 110)" fill="#F9B9C6" stroke="none"/></g><ellipse cx="322" cy="143" rx="23" ry="20" fill="#FFF8F2"/><g stroke="none"><ellipse cx="306" cy="141" rx="4.500" ry="2.800" fill="#F7799A" opacity=".45"/><ellipse cx="338" cy="141" rx="4.500" ry="2.800" fill="#F7799A" opacity=".45"/><ellipse cx="314" cy="135" rx="3.200" ry="3.900" fill="#33252C"/><ellipse cx="330" cy="135" rx="3.200" ry="3.900" fill="#33252C"/><circle cx="313" cy="133.500" r="1.200" fill="#fff"/><circle cx="329" cy="133.500" r="1.200" fill="#fff"/><path d="M320 139.500h4l-2 2.200z" fill="#F0668C"/></g></g>${cloud(330,176,1,'#fff',1)}<ellipse cx="306" cy="147" rx="6" ry="4.200" fill="#FFF8F2" stroke="#F1CAD6" stroke-width="1.200"/><ellipse cx="338" cy="147" rx="6" ry="4.200" fill="#FFF8F2" stroke="#F1CAD6" stroke-width="1.200"/>${cloud(36,214,.85,'#fff',.9)}${cloud(196,58,.6,'#fff',.8)}</g>
-<g fill="#FFD3E0" opacity=".8"><circle cx="20" cy="352" r="62"/><circle cx="120" cy="336" r="70"/><circle cx="230" cy="344" r="64"/><circle cx="330" cy="332" r="72"/><circle cx="410" cy="356" r="60"/></g>
+function clouds(){return `<svg class="clouds c-back" viewBox="0 0 400 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${cloud(70,96,1.100,'#FFD3E0',.75)}${cloud(338,70,.9,'#FFD3E0',.7)}${cloud(250,190,.6,'#FFD3E0',.6)}</svg><div class="clouds c-front"><svg class="cl" viewBox="0 0 400 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g class="friend" stroke="#F1CAD6" stroke-width="1.200"><g class="bear bl"><ellipse cx="311" cy="108" rx="7" ry="21" transform="rotate(-9 311 108)" fill="#FFF8F2"/><ellipse cx="311" cy="110" rx="3.200" ry="14" transform="rotate(-9 311 110)" fill="#F9B9C6" stroke="none"/></g><g class="bear br"><ellipse cx="333" cy="108" rx="7" ry="21" transform="rotate(11 333 108)" fill="#FFF8F2"/><ellipse cx="333" cy="110" rx="3.200" ry="14" transform="rotate(11 333 110)" fill="#F9B9C6" stroke="none"/></g><ellipse cx="322" cy="143" rx="23" ry="20" fill="#FFF8F2"/><g stroke="none"><ellipse cx="306" cy="141" rx="4.500" ry="2.800" fill="#F7799A" opacity=".45"/><ellipse cx="338" cy="141" rx="4.500" ry="2.800" fill="#F7799A" opacity=".45"/><ellipse cx="314" cy="135" rx="3.200" ry="3.900" fill="#33252C"/><ellipse cx="330" cy="135" rx="3.200" ry="3.900" fill="#33252C"/><circle cx="313" cy="133.500" r="1.200" fill="#fff"/><circle cx="329" cy="133.500" r="1.200" fill="#fff"/><path d="M320 139.500h4l-2 2.200z" fill="#F0668C"/></g></g></svg><svg class="cl" viewBox="0 0 400 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${cloud(330,176,1,'#fff',1)}<ellipse cx="306" cy="147" rx="6" ry="4.200" fill="#FFF8F2" stroke="#F1CAD6" stroke-width="1.200"/><ellipse cx="338" cy="147" rx="6" ry="4.200" fill="#FFF8F2" stroke="#F1CAD6" stroke-width="1.200"/>${cloud(36,214,.85,'#fff',.9)}${cloud(196,58,.6,'#fff',.8)}</svg></div><svg class="clouds" viewBox="0 0 400 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#FFD3E0" opacity=".8"><circle cx="20" cy="352" r="62"/><circle cx="120" cy="336" r="70"/><circle cx="230" cy="344" r="64"/><circle cx="330" cy="332" r="72"/><circle cx="410" cy="356" r="60"/></g>
 <g fill="#fff"><circle cx="-10" cy="388" r="70"/><circle cx="80" cy="372" r="66"/><circle cx="180" cy="366" r="72"/><circle cx="290" cy="374" r="68"/><circle cx="390" cy="366" r="70"/><rect x="-20" y="380" width="440" height="40"/></g></svg>`}
 const TREATS={
  acorn:['Tõru','<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 15c0 8 4 11 7 13 3-2 7-5 7-13z" fill="#D9A26E"/><path d="M6 14c0-6 4-9 10-9s10 3 10 9c0 2-2 2-10 2S6 16 6 14z" fill="#A8734B"/><path d="M16 5c0-2 1-3 2-3" stroke="#8C5E3C" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'],
@@ -997,11 +1008,11 @@ document.addEventListener('pointermove',e=>{if(!pet.down)return;const q=$('.sq')
 
 /* feeding: drag a treat from the left menu onto the squirrel */
 let drag=null,eatTimer=0;
-const overPet=(x,y)=>{const q=$('.sq');if(!q)return false;const r=q.getBoundingClientRect();return x>r.left+r.width*.08&&x<r.right-r.width*.08&&y>r.top&&y<r.bottom};
+const overPet=(x,y)=>{const q=$('.sq');if(!q)return false;const r=q.getBoundingClientRect();return x>r.left+r.width*.16&&x<r.right-r.width*.16&&y>r.top+r.height*.06&&y<r.bottom-r.height*.04};
 function feed(k){
   const q=$('.sq'),w=$('.pet-wrap'),b=$('.bubble');if(!q||!w)return;
   const r=q.getBoundingClientRect(),wr=w.getBoundingClientRect();
-  const mx=r.left+r.width*126/260-wr.left,my=r.top+r.height*166/276-wr.top;
+  const mx=r.left+r.width*156/320-wr.left,my=r.top+r.height*186/316-wr.top;
   q.classList.remove('want','tickle');q.classList.add('eat');
   const bite=document.createElement('span');bite.className='bite';bite.innerHTML=TREATS[k][1];bite.style.left=mx+'px';bite.style.top=my+'px';w.appendChild(bite);
   ['näm!','näm-näm'].forEach((t,i)=>setTimeout(()=>{const el=document.createElement('span');el.className='pop';el.textContent=t;el.style.left=(mx+(i?34:-34))+'px';el.style.top=(my-10)+'px';el.style.setProperty('--dx',(i?22:-22)+'px');w.appendChild(el);setTimeout(()=>el.remove(),1000)},250+i*420));
@@ -1048,7 +1059,8 @@ if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.ser
 (function(){const sp=$('#splash'),t0=Date.now();$('#spArt').innerHTML=NUT.replace(/"pk"/g,'"pk2"').replace(/#pk\)/g,'#pk2)').replace(/"pkg"/g,'"pkg2"').replace(/#pkg\)/g,'#pkg2)');
   const done=()=>setTimeout(()=>{sp.classList.add('out');enter()},Math.max(0,1150-(Date.now()-t0)));
   const fonts=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();
-  Promise.race([fonts,new Promise(r=>setTimeout(r,2500))]).then(done,done)})();
+  const baked=bakeLayers().then(()=>{if(view==='home')render()});
+  Promise.race([Promise.all([fonts,baked]),new Promise(r=>setTimeout(r,4000))]).then(done,done)})();
 </script>
 </body>
 </html>

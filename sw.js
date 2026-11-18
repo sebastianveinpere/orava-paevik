@@ -1,5 +1,5 @@
 // Orava päevik: offline support. Bump VERSION whenever the app files change.
-const VERSION = 'orav-v2';
+const VERSION = 'orav-v3';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
