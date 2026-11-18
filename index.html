@@ -265,6 +265,47 @@ h1,h2,h3,p{margin:0}
 .prev{display:block;width:100%;max-height:300px;object-fit:contain;border-radius:14px;margin:10px 0;background:var(--line)}
 .prev[hidden]{display:none}
 
+/* app feel: loading screen, transitions, press feedback, toast */
+html{-webkit-text-size-adjust:100%}
+button,a,input,label{touch-action:manipulation}
+button,.nav,.label,.card-h,.page-h{-webkit-user-select:none;user-select:none}
+button{transition:transform .12s ease,background-color .2s ease,opacity .2s ease}
+button:active{transform:scale(.95)}
+.tabs button{transition:background-color .25s ease,color .25s ease,transform .12s ease}
+#splash{position:fixed;inset:0;z-index:100;background:linear-gradient(#FFDDE8,#FFF3F6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .45s ease,visibility .45s ease}
+#splash.out{opacity:0;visibility:hidden}
+#spArt{width:132px;height:132px;animation:spbob 1.200s ease-in-out infinite}
+#spArt svg{width:100%;height:100%;display:block}
+#spArt .peek{animation:none;transform:translateY(-5px)}
+.sp-name{font-family:var(--display);font-weight:800;font-size:30px;line-height:1}
+.sp-bar{width:150px;height:8px;border-radius:99px;background:#fff;overflow:hidden}
+.sp-bar i{display:block;height:100%;width:100%;border-radius:99px;background:var(--pink-deep);transform-origin:left;animation:spload 1.150s cubic-bezier(.4,.1,.3,1) both}
+@keyframes spload{from{transform:scaleX(.06)}to{transform:scaleX(1)}}
+@keyframes spbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+#view.enter{animation:viewin .34s cubic-bezier(.2,.7,.3,1) both}
+#view.enter .stack>*{animation:cardin .42s cubic-bezier(.2,.7,.3,1) both}
+#view.enter .stack>*:nth-child(1){animation-delay:.04s}#view.enter .stack>*:nth-child(2){animation-delay:.09s}
+#view.enter .stack>*:nth-child(3){animation-delay:.14s}#view.enter .stack>*:nth-child(4){animation-delay:.19s}#view.enter .stack>*:nth-child(n+5){animation-delay:.24s}
+#view.enter .bar i{transform-origin:left;animation:growx .7s .2s cubic-bezier(.2,.7,.3,1) both}
+#view.enter .cb{transform-box:fill-box;transform-origin:50% 100%;animation:growy .6s .2s cubic-bezier(.2,.7,.3,1) both}
+#view.enter .ring circle:nth-child(2){animation:ringin .9s .15s cubic-bezier(.2,.7,.3,1) both}
+@keyframes viewin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes cardin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes growy{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes ringin{from{stroke-dasharray:0 400}}
+.scrim{animation:fadein .22s ease both}
+.sheet{animation:sheetup .34s cubic-bezier(.2,.8,.3,1) both}
+.scrim.closing{animation:fadeout .22s ease both}
+.scrim.closing .sheet{animation:sheetdown .22s ease-in both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes fadeout{from{opacity:1}to{opacity:0}}
+@keyframes sheetup{from{transform:translateY(100%)}to{transform:none}}
+@keyframes sheetdown{from{transform:none}to{transform:translateY(100%)}}
+#toast{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));z-index:60;transform:translate(-50%,-24px);opacity:0;pointer-events:none;background:var(--ink);color:#fff;font-weight:800;font-size:14.500px;padding:10px 16px;border-radius:99px;box-shadow:0 8px 24px rgba(59,42,53,.25);max-width:calc(100% - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:transform .3s cubic-bezier(.2,.8,.3,1),opacity .3s ease}
+#toast.on{transform:translate(-50%,0);opacity:1}
+@media (prefers-reduced-motion:reduce){#view.enter,#view.enter *,.scrim,.sheet,#spArt,.sp-bar i{animation:none!important}button:active{transform:none}}
+
 /* nav */
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:20;pointer-events:none}
 .nav-in{max-width:460px;margin:0 auto;padding:0 20px 18px;display:flex;justify-content:space-between;align-items:center}
@@ -299,6 +340,8 @@ h1,h2,h3,p{margin:0}
 </style>
 </head>
 <body>
+<div id="splash" aria-hidden="true"><div id="spArt"></div><div class="sp-name">Orava päevik</div><div class="sp-bar"><i></i></div></div>
+<div id="toast" role="status"></div>
 <div id="app"><main id="view"></main></div>
 
 <nav class="nav" aria-label="Menüü"><div class="nav-in">
@@ -708,7 +751,7 @@ function chart(vals,o){
     const cx=(i+.5)*(pw/7),x=cx-bw/2;
     if(v>0){const yy=y(v),r=Math.min(8,(pt+ph-yy));
       const col=o.limit&&v>o.limit?'#E0533A':o.color;
-      s+=`<path d="M${x} ${pt+ph}V${yy+r}Q${x} ${yy} ${x+r} ${yy}H${x+bw-r}Q${x+bw} ${yy} ${x+bw} ${yy+r}V${pt+ph}Z" fill="${col}"><title>${DOW[i]}: ${o.tip(v)}</title></path>`}
+      s+=`<path class="cb" d="M${x} ${pt+ph}V${yy+r}Q${x} ${yy} ${x+r} ${yy}H${x+bw-r}Q${x+bw} ${yy} ${x+bw} ${yy+r}V${pt+ph}Z" fill="${col}"><title>${DOW[i]}: ${o.tip(v)}</title></path>`}
     s+=`<text x="${cx}" y="${H-8}" text-anchor="middle" font-size="12.500" font-weight="800" fill="${i===o.today?'#3B2A35':'#A08B97'}">${DOW[i]}</text>`;
     if(i===o.today)s+=`<circle cx="${cx}" cy="${H-2.500}" r="2" fill="#3B2A35"/>`;
   });
@@ -827,8 +870,13 @@ document.addEventListener('change',async e=>{if(e.target.id!=='vFile')return;con
 
 /* ---------- sheets ---------- */
 let addTab='food';
-function openSheet(html){$('#sheet').innerHTML=html;$('#scrim').hidden=false}
-function closeSheet(){$('#scrim').hidden=true;$('#sheet').innerHTML=''}
+let closeTimer=0;
+function openSheet(html){clearTimeout(closeTimer);const sc=$('#scrim');sc.classList.remove('closing');$('#sheet').innerHTML=html;sc.hidden=false}
+function closeSheet(){const sc=$('#scrim');if(sc.hidden||sc.classList.contains('closing'))return;sc.classList.add('closing');
+  clearTimeout(closeTimer);closeTimer=setTimeout(()=>{sc.hidden=true;sc.classList.remove('closing');$('#sheet').innerHTML=''},210)}
+function enter(){const el=$('#view');el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')}
+let toastTimer=0;
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),1900)}
 function savedList(){
   return S.saved.length?S.saved.map(f=>`<div class="item"><span class="t">${esc(f.name)}</span><span class="num">${fmt(f.kcal)} kcal</span>
     <button class="btn sm pink" data-act="add-saved" data-id="${f.id}">Lisa</button>
@@ -873,8 +921,8 @@ function settingsSheet(){
 }
 
 /* ---------- actions ---------- */
-function addFood(name,kcal){const k=dkey(new Date());S.days[k]=S.days[k]||{foods:[],water:[]};S.days[k].foods.push({id:uid(),name,kcal,t:Date.now()});save()}
-function addWater(ml){const k=dkey(new Date());S.days[k]=S.days[k]||{foods:[],water:[]};S.days[k].water.push({id:uid(),ml,t:Date.now()});save()}
+function addFood(name,kcal){const k=dkey(new Date());S.days[k]=S.days[k]||{foods:[],water:[]};S.days[k].foods.push({id:uid(),name,kcal,t:Date.now()});save();toast(`Lisatud: ${name}, ${fmt(kcal)} kcal`)}
+function addWater(ml){const k=dkey(new Date());S.days[k]=S.days[k]||{foods:[],water:[]};S.days[k].water.push({id:uid(),ml,t:Date.now()});save();toast(`Lisatud ${fmt(ml)} ml vett`)}
 function readFood(){
   const name=$('#fName').value.trim(),kcal=Math.round(Number($('#fKcal').value)),note=$('#foodNote');
   if(!name){note.textContent='Kirjuta toidu nimi.';$('#fName').focus();return null}
@@ -887,11 +935,11 @@ document.addEventListener('click',e=>{
   const q=e.target.closest('.sq');if(q){if(pet.moved){pet.moved=false;return}q.classList.remove('hop');void q.getBoundingClientRect();q.classList.add('hop');return}
   const b=e.target.closest('[data-act]');if(!b)return;
   const a=b.dataset.act,d=b.dataset;
-  if(a==='go'){view=d.v;render();window.scrollTo(0,0)}
+  if(a==='go'){if(view!==d.v){view=d.v;render();enter();window.scrollTo(0,0)}}
   else if(a==='feed-toggle'){feedOpen=!feedOpen;$('.feed').classList.toggle('open',feedOpen);b.setAttribute('aria-expanded',feedOpen);const c=$('.bubble');if(feedOpen&&c){if(!c.dataset.t)c.dataset.t=c.textContent;c.textContent='Lohista toit minu juurde!';clearTimeout(eatTimer);eatTimer=setTimeout(()=>{const z=$('.bubble');if(z&&z.dataset.t){z.textContent=z.dataset.t;delete z.dataset.t}},2600)}}
   else if(a==='sleep-toggle'){
-    if(!S.sleep){S.sleep={start:Date.now()};feedOpen=false;save();render()}
-    else{const dur=Date.now()-S.sleep.start;S.lastSleep={start:S.sleep.start,end:Date.now()};S.sleep=null;save();render();
+    if(!S.sleep){S.sleep={start:Date.now()};feedOpen=false;save();render();enter()}
+    else{const dur=Date.now()-S.sleep.start;S.lastSleep={start:S.sleep.start,end:Date.now()};S.sleep=null;save();render();enter();
       const c=$('.bubble');if(c){c.dataset.t=c.textContent;c.textContent=dur<60000?'Tere! Ma ei jõudnud veel uinudagi.':`Tere hommikust! Magasin ${hm(dur)}.`;clearTimeout(eatTimer);eatTimer=setTimeout(()=>{const z=$('.bubble');if(z&&z.dataset.t){z.textContent=z.dataset.t;delete z.dataset.t}},5000)}}}
   else if(a==='open-add'){addTab='food';addSheet()}
   else if(a==='add-tab'){addTab=d.t;addSheet()}
@@ -911,16 +959,16 @@ document.addEventListener('click',e=>{
     if(!(v>0)||v>168){c.focus();return}
     fastGoal=v;S.activeFast={start:Date.now(),goalH:v};save();$('#fastCard').innerHTML=fastCard();tick()}
   else if(a==='fast-stop'){const f=S.activeFast;if(f){S.fasts.push({id:uid(),start:f.start,end:Date.now(),goalH:f.goalH});S.activeFast=null;save();render()}}
-  else if(a==='goal-tab'){goalTab=d.t;render()}
+  else if(a==='goal-tab'){if(goalTab!==d.t){goalTab=d.t;render();enter()}}
   else if(a==='vis-add')visAddSheet();
   else if(a==='vis-open')visOpenSheet(d.id);
   else if(a==='vis-del'){if(!b.dataset.armed){b.dataset.armed='1';b.textContent='Vajuta uuesti';b.style.background='#FFD9CC'}else{vision=vision.filter(x=>x.id!==d.id);visDel(d.id);closeSheet();render()}}
-  else if(a==='goal-nav'){goalOff[goalTab]+=Number(d.d);render()}
+  else if(a==='goal-nav'){goalOff[goalTab]+=Number(d.d);render();enter()}
   else if(a==='goal-toggle'){const g=(S.goals[goalPeriod().key]||[]).find(x=>x.id===d.id);if(g){g.done=!g.done;save();render()}}
   else if(a==='goal-del'){const k=goalPeriod().key;S.goals[k]=(S.goals[k]||[]).filter(x=>x.id!==d.id);if(!S.goals[k].length)delete S.goals[k];save();render()}
   else if(a==='cal-day'){calSel=d.k;render()}
-  else if(a==='cal-nav'){calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+Number(d.d),1);render()}
-  else if(a==='week-nav'){weekOff=Math.min(0,weekOff+Number(d.d));render()}
+  else if(a==='cal-nav'){calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+Number(d.d),1);render();enter()}
+  else if(a==='week-nav'){weekOff=Math.min(0,weekOff+Number(d.d));render();enter()}
   else if(a==='clear-demo'){const s=S.settings;S=blank();S.settings=s;save();render()}
   else if(a==='export'){const txt=JSON.stringify(S),n=$('#bakNote');
     navigator.clipboard.writeText(txt).then(()=>n.textContent='Varukoopia on kopeeritud. Kleebi see kuhugi kindlasse kohta.')
@@ -996,6 +1044,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#scrim').hidden
 
 load();render();visLoad();
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+/* loading screen: stays until fonts are ready, at least about a second, then fades into the app */
+(function(){const sp=$('#splash'),t0=Date.now();$('#spArt').innerHTML=NUT.replace(/"pk"/g,'"pk2"').replace(/#pk\)/g,'#pk2)').replace(/"pkg"/g,'"pkg2"').replace(/#pkg\)/g,'#pkg2)');
+  const done=()=>setTimeout(()=>{sp.classList.add('out');enter()},Math.max(0,1150-(Date.now()-t0)));
+  const fonts=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();
+  Promise.race([fonts,new Promise(r=>setTimeout(r,2500))]).then(done,done)})();
 </script>
 </body>
 </html>
